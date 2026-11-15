@@ -388,9 +388,11 @@ button:focus-visible, input:focus-visible {
 }
 
 .slider-input {
-  width: 3.4ch;
+  width: 2.2ch; /* точная ширина ставится из app.js по числу цифр */
   min-width: 0;
+  height: 1em;
   padding: 0;
+  line-height: 1;
   border: 0;
   border-bottom: 1px dashed var(--line);
   border-radius: 0;

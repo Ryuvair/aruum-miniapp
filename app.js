@@ -264,6 +264,11 @@
     range.step = String(spec.step);
     range.setAttribute('aria-label', step.title[lang]);
 
+    // ширина поля — по числу цифр, чтобы единица измерения стояла вплотную к числу
+    function fit() {
+      number.style.width = (Math.max(1, number.value.length) * 1.02 + 0.15) + 'ch';
+    }
+
     function set(next, keepTyping) {
       var rounded = Math.round(next / spec.step) * spec.step;
       var clamped = Math.min(spec.max, Math.max(spec.min, rounded));
@@ -272,6 +277,7 @@
       range.value = String(clamped);
       range.setAttribute('aria-valuetext', clamped + ' ' + spec.unit[lang]);
       if (!keepTyping) number.value = String(clamped);
+      fit();
       range.style.setProperty('--fill', ((clamped - spec.min) / (spec.max - spec.min)) * 100 + '%');
       if (changed) haptic('select');
     }
@@ -283,6 +289,7 @@
       var valid = number.value !== '' && Math.round(typed) === typed &&
         typed >= spec.min && typed <= spec.max;
       if (valid) set(typed, true);
+      fit();
     });
     // на выходе из поля приводим набранное к диапазону; пустое — возвращаем прежнее
     function normalise() {
