@@ -89,7 +89,7 @@
       "slider": {
         "min": 20,
         "max": 300,
-        "step": 5,
+        "step": 1,
         "default": 80,
         "unit": {
           "ru": "м²",
@@ -177,12 +177,16 @@
       "portfolio_title": "Bizning obyektlar",
       "portfolio_lead": "Biz topshirgan xonadonlar.",
       "photo": "Surat",
+      "instagram": "Instagramda ko'proq ishlar",
       "to_summary": "Arizaga o'tish",
       "summary_title": "Sizning arizangiz",
       "summary_lead": "Javoblarni tekshirib, arizani yuboring.",
       "submit": "Arizani yuborish",
       "thanks_title": "Rahmat",
       "thanks_text": "Tez orada siz bilan bog'lanamiz.",
+      "confirm_title": "Deyarli tayyor",
+      "confirm_text": "Bot bilan chat pastidagi «Start» tugmasini bosing — ariza yuboriladi.",
+      "refs_hint": "Sizga yoqqan interyerlar surati va havolalarini ariza yuborilgach chatga yuborishingiz mumkin.",
       "outside": "Ariza yuborish uchun ilovani bot bilan chatdagi tugma orqali oching."
     },
     "ru": {
@@ -196,12 +200,16 @@
       "portfolio_title": "Наши объекты",
       "portfolio_lead": "Квартиры, которые мы уже сдали.",
       "photo": "Фото",
+      "instagram": "Больше работ в Instagram",
       "to_summary": "К заявке",
       "summary_title": "Ваша заявка",
       "summary_lead": "Проверьте ответы и отправьте заявку.",
       "submit": "Отправить заявку",
       "thanks_title": "Спасибо",
       "thanks_text": "Свяжемся с вами в ближайшее время.",
+      "confirm_title": "Почти готово",
+      "confirm_text": "Нажмите «Старт» внизу чата с ботом — и заявка отправится.",
+      "refs_hint": "Фото и ссылки на интерьеры, которые вам нравятся, можно прислать в чат после отправки заявки.",
       "outside": "Чтобы отправить заявку, откройте приложение кнопкой в чате с ботом."
     }
   },
@@ -230,5 +238,10 @@
         "img/ecosmarthome-3.jpg"
       ]
     }
-  ]
+  ],
+  "instagram": "https://www.instagram.com/aruum.uz/",
+  "start": {
+    "prefix": "ma1",
+    "separator": "-"
+  }
 }

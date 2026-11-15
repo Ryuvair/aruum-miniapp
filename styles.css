@@ -167,6 +167,27 @@ button:focus-visible, input:focus-visible {
 .btn:hover::after { transform: translateX(0.25rem); }
 .btn:active { transform: scale(0.98); }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: border-color 150ms var(--ease), transform 150ms var(--ease);
+}
+
+.btn-outline::after { content: "↗"; color: var(--accent); }
+.btn-outline:hover { border-color: var(--accent); }
+.btn-outline:active { transform: scale(0.98); }
+.btn-outline:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
 .btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -364,6 +385,32 @@ button:focus-visible, input:focus-visible {
   font-size: clamp(4.5rem, 24vw, 9rem);
   line-height: 0.9;
   font-variant-numeric: tabular-nums;
+}
+
+.slider-input {
+  width: 3.4ch;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dashed var(--line);
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.slider-input::-webkit-outer-spin-button,
+.slider-input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.slider-input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--accent);
 }
 
 .slider-unit {
@@ -587,6 +634,8 @@ button:focus-visible, input:focus-visible {
   font-size: 1.5rem;
   line-height: 1.2;
 }
+
+.note + .note { margin-top: var(--space-1); }
 
 .note {
   margin-top: var(--space-3);

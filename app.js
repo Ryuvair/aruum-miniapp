@@ -5,6 +5,7 @@
   'use strict';
 
   var PAYLOAD_VERSION = 1;
+  var LINK_DELAY_MS = 1800; // успеть прочитать «нажмите Старт» перед возвратом в чат
   var SEND_DELAY_MS = 600; // sendData закрывает Mini App, поэтому экран благодарности показываем до отправки
   var BRAND = {
     dark: { bg: '#1a1613', accent: '#dcc6a4', ink: '#1a1613' },
@@ -20,7 +21,7 @@
 
   var data = null;
   var lang = 'ru';
-  var state = { screen: 'welcome', step: 0, answers: {}, sent: false, undelivered: false };
+  var state = { screen: 'welcome', step: 0, answers: {}, sent: false, undelivered: false, viaLink: false };
 
   // ---------- маленькие помощники ----------
 
@@ -124,10 +125,24 @@
     return JSON.stringify({ v: PAYLOAD_VERSION, lang: lang, a: state.answers });
   }
 
+  /** Ссылка t.me/<бот>?start=<заявка>: путь без сервера, когда sendData недоступен (кнопка меню). */
+  function startLink() {
+    var bot = new URLSearchParams(window.location.search).get('bot');
+    if (!bot || !/^[A-Za-z0-9_]{3,40}$/.test(bot) || !data.start) return null;
+    var parts = [data.start.prefix, lang].concat(data.steps.map(function (step) {
+      return String(state.answers[step.id]);
+    }));
+    return 'https://t.me/' + bot + '?start=' + encodeURIComponent(parts.join(data.start.separator));
+  }
+
   function submit() {
     if (state.sent || !isComplete()) return;
-    state.sent = true;
     var body = payload();
+    // initData пустой только при запуске с кнопки клавиатуры — там работает sendData;
+    // при запуске из меню ответы уходят боту ссылкой с параметром start
+    var link = inTelegram && tg.initData ? startLink() : null;
+    state.sent = true;
+    state.viaLink = Boolean(link);
     go('thanks');
     if (!inTelegram) {
       // локальный превью: показываем, что ушло бы боту
@@ -138,15 +153,19 @@
     tg.MainButton.hide();
     window.setTimeout(function () {
       if (supports('6.2')) tg.disableClosingConfirmation();
+      if (link) {
+        tg.openTelegramLink(link);
+        tg.close();
+        return;
+      }
       tg.sendData(body);
-      // sendData работает только при запуске с кнопки клавиатуры; если окно не закрылось,
-      // заявка не ушла — возвращаем резюме с подсказкой, а не оставляем «отправлено»
+      // если окно не закрылось, заявка не ушла — возвращаем резюме с подсказкой
       window.setTimeout(function () {
         state.sent = false;
         state.undelivered = true;
         go('summary');
       }, 2500);
-    }, SEND_DELAY_MS);
+    }, link ? LINK_DELAY_MS : SEND_DELAY_MS);
   }
 
   function syncTelegramChrome() {
@@ -228,7 +247,14 @@
     var value = typeof stored === 'number' ? stored : spec.default;
     state.answers[step.id] = value;
 
-    var number = el('span', '', String(value));
+    // крупная цифра — поле ввода: можно набрать точное значение
+    var number = el('input', 'slider-input');
+    number.type = 'number';
+    number.inputMode = 'numeric';
+    number.min = String(spec.min);
+    number.max = String(spec.max);
+    number.step = String(spec.step);
+    number.setAttribute('aria-label', step.title[lang]);
     var big = add(el('div', 'slider-value'), number, el('span', 'slider-unit', spec.unit[lang]));
 
     var range = el('input', 'range');
@@ -236,21 +262,28 @@
     range.min = String(spec.min);
     range.max = String(spec.max);
     range.step = String(spec.step);
-    range.value = String(value);
     range.setAttribute('aria-label', step.title[lang]);
 
-    function set(next) {
-      var clamped = Math.min(spec.max, Math.max(spec.min, next));
+    function set(next, keepTyping) {
+      var rounded = Math.round(next / spec.step) * spec.step;
+      var clamped = Math.min(spec.max, Math.max(spec.min, rounded));
       var changed = clamped !== state.answers[step.id];
       state.answers[step.id] = clamped;
       range.value = String(clamped);
       range.setAttribute('aria-valuetext', clamped + ' ' + spec.unit[lang]);
-      number.textContent = String(clamped);
+      if (!keepTyping) number.value = String(clamped);
       range.style.setProperty('--fill', ((clamped - spec.min) / (spec.max - spec.min)) * 100 + '%');
       if (changed) haptic('select');
     }
 
     range.addEventListener('input', function () { set(Number(range.value)); });
+    // пока человек печатает, цифру в поле не трогаем; на выходе из поля приводим к диапазону
+    number.addEventListener('input', function () {
+      var typed = Number(number.value);
+      if (number.value !== '' && isFinite(typed)) set(typed, true);
+    });
+    number.addEventListener('change', function () { set(state.answers[step.id]); });
+    number.addEventListener('focus', function () { number.select(); });
     var minus = button('nudge', '−', function () { set(state.answers[step.id] - spec.step); });
     var plus = button('nudge', '+', function () { set(state.answers[step.id] + spec.step); });
     minus.setAttribute('aria-label', '−' + spec.step);
@@ -290,6 +323,19 @@
     return add(item, img, caption);
   }
 
+  function externalLink(label, url) {
+    var link = el('a', 'btn-outline', label);
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.addEventListener('click', function (event) {
+      if (!inTelegram) return; // в браузере — обычный переход по ссылке
+      event.preventDefault();
+      tg.openLink(url);
+    });
+    return link;
+  }
+
   function portfolioScreen() {
     var head = add(el('div', 'section-head'),
       el('h1', 'section-title', t('portfolio_title')), el('p', 'lead', t('portfolio_lead')));
@@ -307,6 +353,7 @@
     });
     var actions = add(el('div', 'screen-actions'),
       button('btn', t('to_summary'), function () { haptic(); go('summary'); }));
+    if (data.instagram) add(actions, externalLink(t('instagram'), data.instagram));
     return add(el('section', 'screen'), topbar(t('brand')), head, projects, actions);
   }
 
@@ -330,13 +377,16 @@
       // вне Telegram нативной MainButton нет — показываем её замену и подсказку
       add(screen, add(el('div', 'screen-actions'), button('btn', t('submit'), submit)));
     }
+    add(screen, el('p', 'note', t('refs_hint')));
     if (!inTelegram || state.undelivered) add(screen, el('p', 'note', t('outside')));
     return screen;
   }
 
   function thanksScreen() {
+    var title = state.viaLink ? t('confirm_title') : t('thanks_title');
+    var text = state.viaLink ? t('confirm_text') : t('thanks_text');
     return add(el('section', 'screen thanks'), el('span', 'brand-mark', 'A'),
-      el('h1', 'thanks-title', t('thanks_title')), el('p', 'lead', t('thanks_text')));
+      el('h1', 'thanks-title', title), el('p', 'lead', text));
   }
 
   var SCREENS = {
