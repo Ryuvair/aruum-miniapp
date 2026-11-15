@@ -277,12 +277,19 @@
     }
 
     range.addEventListener('input', function () { set(Number(range.value)); });
-    // пока человек печатает, цифру в поле не трогаем; на выходе из поля приводим к диапазону
+    // пока человек печатает, принимаем только готовое число из диапазона и поле не трогаем
     number.addEventListener('input', function () {
       var typed = Number(number.value);
-      if (number.value !== '' && isFinite(typed)) set(typed, true);
+      var valid = number.value !== '' && Math.round(typed) === typed &&
+        typed >= spec.min && typed <= spec.max;
+      if (valid) set(typed, true);
     });
-    number.addEventListener('change', function () { set(state.answers[step.id]); });
+    // на выходе из поля приводим набранное к диапазону; пустое — возвращаем прежнее
+    function normalise() {
+      var typed = Number(number.value);
+      set(number.value !== '' && isFinite(typed) ? typed : state.answers[step.id]);
+    }
+    number.addEventListener('change', normalise);
     number.addEventListener('focus', function () { number.select(); });
     var minus = button('nudge', '−', function () { set(state.answers[step.id] - spec.step); });
     var plus = button('nudge', '+', function () { set(state.answers[step.id] + spec.step); });
@@ -292,7 +299,7 @@
 
     var scale = add(el('div', 'slider-scale'),
       el('span', '', spec.min + ' ' + spec.unit[lang]), el('span', '', spec.max + ' ' + spec.unit[lang]));
-    var next = button('btn', t('next'), function () { haptic(); nextStep(); });
+    var next = button('btn', t('next'), function () { normalise(); haptic(); nextStep(); });
     return add(el('div', 'slider'), big,
       add(el('div', 'slider-row'), minus, range, plus), scale,
       add(el('div', 'step-actions'), next));

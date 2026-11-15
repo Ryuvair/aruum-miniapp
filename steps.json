@@ -185,7 +185,7 @@
       "thanks_title": "Rahmat",
       "thanks_text": "Tez orada siz bilan bog'lanamiz.",
       "confirm_title": "Deyarli tayyor",
-      "confirm_text": "Bot bilan chat pastidagi «Start» tugmasini bosing — ariza yuboriladi.",
+      "confirm_text": "Bot bilan chat pastidagi tugmani bosing — ariza yuboriladi.",
       "refs_hint": "Sizga yoqqan interyerlar surati va havolalarini ariza yuborilgach chatga yuborishingiz mumkin.",
       "outside": "Ariza yuborish uchun ilovani bot bilan chatdagi tugma orqali oching."
     },
@@ -208,7 +208,7 @@
       "thanks_title": "Спасибо",
       "thanks_text": "Свяжемся с вами в ближайшее время.",
       "confirm_title": "Почти готово",
-      "confirm_text": "Нажмите «Старт» внизу чата с ботом — и заявка отправится.",
+      "confirm_text": "Нажмите кнопку внизу чата с ботом — и заявка отправится.",
       "refs_hint": "Фото и ссылки на интерьеры, которые вам нравятся, можно прислать в чат после отправки заявки.",
       "outside": "Чтобы отправить заявку, откройте приложение кнопкой в чате с ботом."
     }
