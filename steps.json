@@ -1,0 +1,234 @@
+{
+  "version": 1,
+  "langs": [
+    "uz",
+    "ru"
+  ],
+  "default_lang": "ru",
+  "steps": [
+    {
+      "id": "object",
+      "title": {
+        "ru": "Тип объекта",
+        "uz": "Obyekt turi"
+      },
+      "options": [
+        {
+          "id": "box",
+          "label": {
+            "ru": "Новостройка — коробка",
+            "uz": "Yangi bino — karobka"
+          }
+        },
+        {
+          "id": "rough",
+          "label": {
+            "ru": "Новостройка с черновой отделкой",
+            "uz": "Yangi bino — xomaki ta'mir bilan"
+          }
+        },
+        {
+          "id": "resale",
+          "label": {
+            "ru": "Вторичка",
+            "uz": "Ikkilamchi uy-joy"
+          }
+        },
+        {
+          "id": "commercial",
+          "label": {
+            "ru": "Коммерция",
+            "uz": "Tijorat obyekti"
+          }
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "title": {
+        "ru": "Площадь",
+        "uz": "Maydoni"
+      },
+      "options": [
+        {
+          "id": "lt50",
+          "label": {
+            "ru": "до 50 м²",
+            "uz": "50 m² gacha"
+          }
+        },
+        {
+          "id": "50_80",
+          "label": {
+            "ru": "50–80 м²",
+            "uz": "50–80 m²"
+          }
+        },
+        {
+          "id": "80_120",
+          "label": {
+            "ru": "80–120 м²",
+            "uz": "80–120 m²"
+          }
+        },
+        {
+          "id": "120_200",
+          "label": {
+            "ru": "120–200 м²",
+            "uz": "120–200 m²"
+          }
+        },
+        {
+          "id": "gt200",
+          "label": {
+            "ru": "200+ м²",
+            "uz": "200+ m²"
+          }
+        }
+      ],
+      "slider": {
+        "min": 20,
+        "max": 300,
+        "step": 5,
+        "default": 80,
+        "unit": {
+          "ru": "м²",
+          "uz": "m²"
+        }
+      }
+    },
+    {
+      "id": "service",
+      "title": {
+        "ru": "Что нужно",
+        "uz": "Nima kerak"
+      },
+      "options": [
+        {
+          "id": "design",
+          "label": {
+            "ru": "Дизайн-проект",
+            "uz": "Dizayn-loyiha"
+          }
+        },
+        {
+          "id": "repair",
+          "label": {
+            "ru": "Ремонт",
+            "uz": "Ta'mirlash"
+          }
+        },
+        {
+          "id": "supply",
+          "label": {
+            "ru": "Комплектация",
+            "uz": "Komplektatsiya"
+          }
+        },
+        {
+          "id": "turnkey",
+          "label": {
+            "ru": "Всё под ключ",
+            "uz": "Hammasi «kalit taslim»"
+          }
+        }
+      ]
+    },
+    {
+      "id": "timing",
+      "title": {
+        "ru": "Срок",
+        "uz": "Muddat"
+      },
+      "options": [
+        {
+          "id": "keys",
+          "label": {
+            "ru": "Ключи уже есть",
+            "uz": "Kalitlar qo'limda"
+          }
+        },
+        {
+          "id": "3m",
+          "label": {
+            "ru": "В ближайшие 3 месяца",
+            "uz": "Yaqin 3 oy ichida"
+          }
+        },
+        {
+          "id": "looking",
+          "label": {
+            "ru": "Пока присматриваюсь",
+            "uz": "Hozircha ko'rib yuribman"
+          }
+        }
+      ]
+    }
+  ],
+  "texts": {
+    "uz": {
+      "brand": "ARUUM STUDIO",
+      "tagline": "Kalit taslim ta'mir · Toshkent",
+      "welcome": "Ishlarimizni ko'ring va ta'miringizni bir daqiqada hisoblang.",
+      "start": "Boshlash",
+      "next": "Keyingi",
+      "back": "Orqaga",
+      "step_of": "{i}-qadam, jami {n}",
+      "portfolio_title": "Bizning obyektlar",
+      "portfolio_lead": "Biz topshirgan xonadonlar.",
+      "photo": "Surat",
+      "to_summary": "Arizaga o'tish",
+      "summary_title": "Sizning arizangiz",
+      "summary_lead": "Javoblarni tekshirib, arizani yuboring.",
+      "submit": "Arizani yuborish",
+      "thanks_title": "Rahmat",
+      "thanks_text": "Tez orada siz bilan bog'lanamiz.",
+      "outside": "Ariza yuborish uchun ilovani bot bilan chatdagi tugma orqali oching."
+    },
+    "ru": {
+      "brand": "ARUUM STUDIO",
+      "tagline": "Ремонт под ключ · Ташкент",
+      "welcome": "Посмотрите наши работы и рассчитайте свой ремонт за минуту.",
+      "start": "Начать",
+      "next": "Далее",
+      "back": "Назад",
+      "step_of": "Шаг {i} из {n}",
+      "portfolio_title": "Наши объекты",
+      "portfolio_lead": "Квартиры, которые мы уже сдали.",
+      "photo": "Фото",
+      "to_summary": "К заявке",
+      "summary_title": "Ваша заявка",
+      "summary_lead": "Проверьте ответы и отправьте заявку.",
+      "submit": "Отправить заявку",
+      "thanks_title": "Спасибо",
+      "thanks_text": "Свяжемся с вами в ближайшее время.",
+      "outside": "Чтобы отправить заявку, откройте приложение кнопкой в чате с ботом."
+    }
+  },
+  "portfolio": [
+    {
+      "id": "caravan-avenue",
+      "title": {
+        "ru": "ЖК Caravan Avenue",
+        "uz": "Caravan Avenue TJM"
+      },
+      "photos": [
+        "img/caravan-avenue-1.jpg",
+        "img/caravan-avenue-2.jpg",
+        "img/caravan-avenue-3.jpg"
+      ]
+    },
+    {
+      "id": "ecosmarthome",
+      "title": {
+        "ru": "ЖК EcoSmartHome",
+        "uz": "EcoSmartHome TJM"
+      },
+      "photos": [
+        "img/ecosmarthome-1.jpg",
+        "img/ecosmarthome-2.jpg",
+        "img/ecosmarthome-3.jpg"
+      ]
+    }
+  ]
+}
